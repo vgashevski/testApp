@@ -1,0 +1,16 @@
+{
+    "presets": [
+      "flow",
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread",
+      "transform-runtime",
+      ["react-flow-props-to-prop-types", {  }],
+      ["import", { "libraryName": "antd", "libraryDirectory": "lib"}, "ant"],
+      ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib"}, "antd-mobile"]
+
+    ]
+  }
+  

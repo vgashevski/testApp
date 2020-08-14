@@ -1,0 +1,16 @@
+.ant-layout-content {
+    padding: 50px;
+}
+.imgPreviewWrapper {
+    height: 250px;
+}
+.imgPreview {
+    max-height: 100%;
+    max-width: 100%;
+}
+.previewItemName {
+    font-weight: bold;
+}
+.ant-layout-footer {
+    text-align: center;
+}
