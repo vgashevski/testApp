@@ -12,9 +12,9 @@ const initState = {
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case FFETCH_CAMPERVANS:
-      return { ...state, loading: true }
+      return { ...state, loading: true };
+
     case FFETCH_CAMPERVANS_SUCCESS:
-      console.log('reducer action: ', action);
       if (action.payload.offset === 0) {
         return { ...state, campervanList: [...action.payload.data], loading: false, total:  action.payload.meta.total}
       } else {

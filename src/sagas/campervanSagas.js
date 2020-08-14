@@ -18,7 +18,6 @@ import {
 
 
 function* doFetch({payload}) {
-    console.log('saga payload: ', payload);
     const { limit, offset, filter } = payload;
     try {
         const params = {

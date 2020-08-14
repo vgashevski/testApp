@@ -19,10 +19,6 @@ const { Header, Footer, Content } = Layout;
 const { Search } = Input;
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   withRouter
 } from "react-router-dom";
 
@@ -51,27 +47,18 @@ class ListCampervans extends React.Component {
 
     this.qSearch = window.location.search;
     this.qParams = new URLSearchParams(window.location.search);
-    // console.log('window.location: ', window.location)
-    // console.log('window.location.search: ', window.location.search)
-    console.log('qParams: ', this.qParams)
+
     this.limit = this.qParams.get("limit") ||  DEFAULT_RESPONSE_LIMIT;
     this.limit = parseInt(this.limit);
     this.offset = this.qParams.get("offset") || DEFAULT_RESPONSE_OFFSET;
     this.offset = parseInt(this.offset);
     this.filter = this.qParams.get("filter") || '';
-
-    console.log('this.limit: ', this.limit);
-    console.log('this.offset: ', this.offset);
-    console.log('this.filter: ', this.filter);
   }
   componentDidMount() {
-    console.log('this.props: ', this.props);
     this.props.getCampervans({limit:this.limit, offset: this.offset});
   }
 
   componentDidUpdate(prevProps) {
-  console.log('window.location.search: ', window.location.search);
-  console.log('qSearch: ', this.qSearch);
     if (window.location.search !== this.qSearch) {
       this.qParams = new URLSearchParams(window.location.search);
     }
@@ -79,7 +66,7 @@ class ListCampervans extends React.Component {
 
   doSearch(terms) {
     const trimmedTerms = terms.trim()
-    console.log('Filter Terms: ', trimmedTerms);
+
     this.filter = trimmedTerms;
     this.limit = DEFAULT_RESPONSE_LIMIT;
     this.offset = DEFAULT_RESPONSE_OFFSET;
@@ -118,17 +105,11 @@ class ListCampervans extends React.Component {
 
   renderItems() {
     if (!this.props.data || !this.props.data.length) {
-      console.log('this.data: ', this.data)
       return
     }
     let counter = 0;
     const res = this.props.data.map((item)=>{
-    counter += 1;
-      const alreadyExists = this.props.data.find((i)=>i.id===item.id)
-      if (alreadyExists) {
-        console.log('alreadyExists: ', alreadyExists)
-        console.log('duplicated item: ', item)
-      }
+      counter += 1;
       return(
           <Col className="gutter-row" key={`${item.id}_${Date.now()}_${counter}`} span={12} xs={24} sm={24} md={12} lg={12} xl={12} >
             <div >
@@ -146,7 +127,7 @@ class ListCampervans extends React.Component {
             </div>
           </Col>
       )
-    })
+    });
     return(
       <div>
         <Divider orientation="left"></Divider>
@@ -159,7 +140,6 @@ class ListCampervans extends React.Component {
 
   render() {
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-    console.log('this.props.loading: ',this.props.loading)
     return (
     <div>
       <Layout className="layout">
@@ -167,6 +147,7 @@ class ListCampervans extends React.Component {
           <h1>Campervans</h1>
           {this.renderSearchSection()}
           {this.renderItems()}
+          <Divider orientation="left"></Divider>
         </Content>
         <Footer>
           <Button loading={this.props.loading}  type="primary" onClick={this.loadMore}>Load more</Button>

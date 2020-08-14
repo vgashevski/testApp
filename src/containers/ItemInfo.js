@@ -6,13 +6,10 @@ import {
   withRouter
 } from "react-router-dom";
 import {
-  Button,
   Spin,
   Layout,
   Row,
   Col,
-  Divider,
-  Input,
   Empty,
 } from "antd";
 const {Content } = Layout;
@@ -26,11 +23,8 @@ class ItemInfo extends React.Component {
       item: null,
     };
     this.getItemById = this.getItemById.bind(this);
-
-    // this.qParams = new URLSearchParams(window.location.search);
     this.history = this.props.history;
     this.qParams = new URLSearchParams(this.history.location.search);
-    console.log('this.history.location.search: ', this.history.location.search)
 
   }
   componentDidMount() {
@@ -39,9 +33,7 @@ class ItemInfo extends React.Component {
       const item = this.getItemById(id);
       if (item) {
         this.setState({item})
-        console.log('item: ', item)
       }
-
     }
   }
 
