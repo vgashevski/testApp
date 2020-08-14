@@ -1,6 +1,9 @@
 .ant-layout-content {
     padding: 50px;
 }
+.layoutB {
+    padding: 50px 0;
+}
 .imgPreviewWrapper {
     height: 250px;
 }
@@ -13,4 +16,23 @@
 }
 .ant-layout-footer {
     text-align: center;
+}
+.ant-btn-primary {
+    background-color: green;
+    border-color: green;
+}
+.ant-btn-primary:hover, .ant-btn-primary:focus{
+    background-color: green;
+    border-color: green;
+    opacity: 0.5;
+}
+.imgInfoWrapper {
+    height: 500px;
+}
+.imgInfo {
+    /*max-height: 100%;*/
+    max-width: 100%;
+}
+.clickableDiv {
+    cursor: pointer;
 }

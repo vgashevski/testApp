@@ -1,4 +1,4 @@
-const defaultPostHeaders = [
+const defaultHeaders = [
   {
     name: 'Content-Type',
     value: 'application/json',
@@ -6,7 +6,7 @@ const defaultPostHeaders = [
 ];
 
 const RestManager = {
-  request: async (url, method = 'GET', headers = [...defaultPostHeaders], isEssential = true) => {
+  request: async (url, method = 'GET', headers = [...defaultHeaders]) => {
     const options = {
       method,
       headers: RestManager.getHeaders(headers),

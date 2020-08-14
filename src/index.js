@@ -7,7 +7,13 @@ import { logger } from 'redux-logger';
 import reducer from './reducers';
 import App from './components/App';
 import rootSaga from './sagas';
-import { Route, Switch } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+import ListCampervans from "./containers/ListCampervans";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,7 +26,11 @@ sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
-    <App />
+
+
+              <App />
+
+    {/*<App />*/}
     {/*  <Switch>*/}
     {/*      <Route path="/" component={App} />*/}
     {/*  </Switch>*/}

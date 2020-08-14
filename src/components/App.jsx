@@ -2,17 +2,24 @@ import React from 'react';
 import 'antd/dist/antd.css'
 import '../styles/main.css';
 import ListCampervans from '../containers/ListCampervans';
-import Loading from '../containers/Loading'
-import { Route, Switch } from "react-router-dom";
+import ItemInfo from '../containers/ItemInfo';
+import PageNotFound from "./PageNotFound";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+import {Provider} from "react-redux";
 
 let App = () => (
-  <div>
-      {/*<Switch>*/}
-      {/*    <Route path="/" component={ListCampervans} />*/}
-      {/*</Switch>*/}
-    <ListCampervans />
-    <Loading />
-  </div>
+    <Router>
+    <Switch>
+        <Route exact path="/" component={ListCampervans} />
+        <Route path="/item" component={ItemInfo} />
+        <Route component={PageNotFound} />
+    </Switch>
+    </Router>
 );
 
 

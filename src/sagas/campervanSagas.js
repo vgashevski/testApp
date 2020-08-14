@@ -18,17 +18,18 @@ import {
 
 
 function* doFetch({payload}) {
-    console.log('saga payload: ', payload)
-    const { limit, offset } = payload;
+    console.log('saga payload: ', payload);
+    const { limit, offset, filter } = payload;
     try {
         const params = {
             limit: limit || DEFAULT_RESPONSE_LIMIT,
             offset: offset || DEFAULT_RESPONSE_OFFSET,
+            filter: filter || ''
         };
 
         const fetchedCampervans = yield call(rest.fetchCampervans, params);
-        if (fetchedCampervans && fetchedCampervans.data && fetchedCampervans.data.length) {
-            yield put(getCampervansSuccess(fetchedCampervans));
+        if (fetchedCampervans && fetchedCampervans.data) {
+            yield put(getCampervansSuccess({ ...fetchedCampervans, offset}));
         } else {
             console.log('fetched campervans result: ', fetchedCampervans);
         }
