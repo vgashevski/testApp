@@ -10,7 +10,7 @@ import {
   Layout,
   Row,
   Col,
-  Empty,
+  Empty, Divider,
 } from "antd";
 const {Content } = Layout;
 
@@ -45,6 +45,34 @@ class ItemInfo extends React.Component {
     return url;
   }
 
+  getPrice(item) {
+    const currencySymbols = {
+      'USD': '$', // US Dollar
+      'EUR': '€', // Euro
+      'CRC': '₡', // Costa Rican Colón
+      'GBP': '£', // British Pound Sterling
+      'ILS': '₪', // Israeli New Sheqel
+      'INR': '₹', // Indian Rupee
+      'JPY': '¥', // Japanese Yen
+      'KRW': '₩', // South Korean Won
+      'NGN': '₦', // Nigerian Naira
+      'PHP': '₱', // Philippine Peso
+      'PLN': 'zł', // Polish Zloty
+      'PYG': '₲', // Paraguayan Guarani
+      'THB': '฿', // Thai Baht
+      'UAH': '₴', // Ukrainian Hryvnia
+      'VND': '₫', // Vietnamese Dong
+    };
+    const currencyName = item.attributes.presentment_currency;
+    let cSymbol = '';
+    if (currencySymbols[currencyName]!==undefined) {
+      cSymbol = currencySymbols[currencyName]
+    }
+    const priceInUnit = parseInt(item.attributes.price_per_day) / 100;
+
+    return `${cSymbol}${priceInUnit}`
+  }
+
   render() {
     const item  = this.props.selectedItemData;
     const loading  = this.props.loading;
@@ -54,17 +82,29 @@ class ItemInfo extends React.Component {
         <Content>
           {
             item && item.data
-            ?  <Row gutter={[16]}>
+            ?  <div><Row gutter={[16]}>
                   <Col  xs={24} sm={24} md={12} lg={12} xl={12}>
                     <div className="imgInfoWrapper">
                       <img className="imgInfo" src={this.findImgUrl(item, 'images')} alt="Picture is not available"/>
                     </div>
                   </Col>
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                    <div>{item.data.attributes.display_vehicle_type} - {item.data.attributes.location.city}, {item.data.attributes.location.country}</div>
-                    <div className="previewItemName">{item.data.attributes.name}</div>
+                </Row>
+                  <Divider orientation="left"></Divider>
+                <Row gutter={[16, 40]}>
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                    <Row>
+                      <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                        <div>{item.data.attributes.display_vehicle_type} - {item.data.attributes.location.city}, {item.data.attributes.location.country}</div>
+                        <div className="previewItemName">{item.data.attributes.name}</div>
+                      </Col>
+                      <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                        <span className="greenPrice">{this.getPrice(item.data)}</span>
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
+
+                </div>
                 : loading ? (
                   <div style={{textAlign: 'center'}} ><Spin/></div>
                   ) : <Empty />

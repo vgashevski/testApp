@@ -14,6 +14,7 @@ import {
   Col,
   Divider,
   Input,
+  Rate,
 } from "antd";
 const { Header, Footer, Content } = Layout;
 const { Search } = Input;
@@ -87,6 +88,34 @@ class ListCampervans extends React.Component {
     this.props.history.push(`/item?selected-item=${item.id}`)
   }
 
+  getPrice(item) {
+    const currencySymbols = {
+      'USD': '$', // US Dollar
+      'EUR': '€', // Euro
+      'CRC': '₡', // Costa Rican Colón
+      'GBP': '£', // British Pound Sterling
+      'ILS': '₪', // Israeli New Sheqel
+      'INR': '₹', // Indian Rupee
+      'JPY': '¥', // Japanese Yen
+      'KRW': '₩', // South Korean Won
+      'NGN': '₦', // Nigerian Naira
+      'PHP': '₱', // Philippine Peso
+      'PLN': 'zł', // Polish Zloty
+      'PYG': '₲', // Paraguayan Guarani
+      'THB': '฿', // Thai Baht
+      'UAH': '₴', // Ukrainian Hryvnia
+      'VND': '₫', // Vietnamese Dong
+    };
+    const currencyName = item.attributes.presentment_currency;
+    let cSymbol = '';
+    if (currencySymbols[currencyName]!==undefined) {
+      cSymbol = currencySymbols[currencyName]
+    }
+    const priceInUnit = parseInt(item.attributes.price_per_day) / 100;
+
+    return `${cSymbol}${priceInUnit}`
+  }
+
   renderSearchSection() {
     return(
         <Row gutter={[16]}>
@@ -120,8 +149,15 @@ class ListCampervans extends React.Component {
                   </div>
                 </Col>
                 <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <div onClick={()=>{this.openItem(item)}} className="clickableDiv">{item.attributes.display_vehicle_type} - {item.attributes.location.city}, {item.attributes.location.country}</div>
-                  <div onClick={()=>{this.openItem(item)}} className="previewItemName clickableDiv">{item.attributes.name}</div>
+                  <Row gutter={[16, 40]}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <div onClick={()=>{this.openItem(item)}} className="clickableDiv">{item.attributes.display_vehicle_type} - {item.attributes.location.city}, {item.attributes.location.country}</div>
+                      <div onClick={()=>{this.openItem(item)}} className="previewItemName clickableDiv">{item.attributes.name}</div>
+                    </Col>
+                    <Col>
+                      <div><span><b>{this.getPrice(item)}</b></span>&nbsp;&nbsp;<Rate allowHalf defaultValue={2.5} />(12)</div>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </div>
