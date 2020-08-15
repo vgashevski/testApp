@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import Campervan from './Campervan';
+import CampervanReducer from './CampervanReducer';
 
 const createRootReducer = () => combineReducers({
-  campervan: Campervan
+  campervan: CampervanReducer
 });
 
 export default createRootReducer;

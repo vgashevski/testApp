@@ -1,4 +1,10 @@
-import { FFETCH_CAMPERVANS, FFETCH_CAMPERVANS_SUCCESS } from "../constants/ActionTypes";
+import {
+  FFETCH_CAMPERVANS,
+  FFETCH_CAMPERVANS_SUCCESS,
+  GET_RENTAL,
+  GET_RENTAL_SUCCESS,
+  CLEANUP_SELECTED,
+} from "../constants/ActionTypes";
 
 export const getCampervans = (params) => {
   return {
@@ -13,13 +19,29 @@ export const getCampervansSuccess = (payload) => {
     payload
   }
 };
+export const getRental = (payload) => {
+  return {
+    type: GET_RENTAL,
+    payload
+  }
+};
+export const getRentalSuccess  = (payload) => {
+  return {
+    type: GET_RENTAL_SUCCESS,
+    payload
+  }
+};
+export const cleanUpSelected  = () => {
+  return {
+    type: CLEANUP_SELECTED,
+  }
+};
 
+// TODO
 // export const fetchError = (error) => {
 //   return {
 //     type: FETCH_ERROR,
 //     payload: error
 //   }
 // };
-export const getNews = () => ({
-  type: 'GET_NEWS',
-});
+

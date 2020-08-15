@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { campervanActions } from '../actions'
-import { LoadingOutlined } from '@ant-design/icons';
+
 import {
   withRouter
 } from "react-router-dom";
@@ -14,15 +14,13 @@ import {
 } from "antd";
 const {Content } = Layout;
 
-
-
 class ItemInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       item: null,
     };
-    this.getItemById = this.getItemById.bind(this);
+    this.findImgUrl = this.findImgUrl.bind(this);
     this.history = this.props.history;
     this.qParams = new URLSearchParams(this.history.location.search);
 
@@ -30,40 +28,47 @@ class ItemInfo extends React.Component {
   componentDidMount() {
     const id = this.qParams.get('selected-item');
     if (id) {
-      const item = this.getItemById(id);
-      if (item) {
-        this.setState({item})
-      }
+      this.props.getRental({id});
     }
   }
+  componentWillUnmount() {
+    this.props.cleanUpSelected()
+  }
 
-  getItemById(id) {
-    return this.props.data.find((item) => item.id === id);
+  findImgUrl(item, type) {
+    let url = '';
+    const imgId = item.data.relationships.primary_image.data.id;
+    const imgObj = item.included.find((i)=> i.type === type && i.id===imgId);
+    if (imgObj) {
+      url = imgObj.attributes.url
+    }
+    return url;
   }
 
   render() {
-    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-    const { item } = this.state;
+    const item  = this.props.selectedItemData;
+    const loading  = this.props.loading;
     return (
     <div>
       <Layout className="layout">
         <Content>
           {
-            item
+            item && item.data
             ?  <Row gutter={[16]}>
                   <Col  xs={24} sm={24} md={12} lg={12} xl={12}>
                     <div className="imgInfoWrapper">
-                      <img className="imgInfo" src={item.attributes.primary_image_url} alt="Picture is not available"/>
+                      <img className="imgInfo" src={this.findImgUrl(item, 'images')} alt="Picture is not available"/>
                     </div>
                   </Col>
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                    <div>{item.attributes.display_vehicle_type} - {item.attributes.location.city}, {item.attributes.location.country}</div>
-                    <div className="previewItemName">{item.attributes.name}</div>
+                    <div>{item.data.attributes.display_vehicle_type} - {item.data.attributes.location.city}, {item.data.attributes.location.country}</div>
+                    <div className="previewItemName">{item.data.attributes.name}</div>
                   </Col>
                 </Row>
-                : <Empty />
+                : loading ? (
+                  <div style={{textAlign: 'center'}} ><Spin/></div>
+                  ) : <Empty />
           }
-
         </Content>
       </Layout>
     </div>
@@ -74,11 +79,14 @@ class ItemInfo extends React.Component {
 
 const mapDispatchToProps = {
   getCampervans: (params) => campervanActions.getCampervans(params),
+  getRental: (params) => campervanActions.getRental(params),
+  cleanUpSelected: () => campervanActions.cleanUpSelected(),
 };
 const mapStateToProps = ({ campervan }) => {
   return {
     loading: campervan.loading,
     data: campervan.campervanList,
+    selectedItemData: campervan.selectedItemData,
   }
 };
 

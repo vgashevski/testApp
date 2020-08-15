@@ -27,7 +27,8 @@
     opacity: 0.5;
 }
 .imgInfoWrapper {
-    height: 500px;
+    /*height: 500px;*/
+    min-height: 200px;
 }
 .imgInfo {
     /*max-height: 100%;*/
