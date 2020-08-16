@@ -6,14 +6,14 @@ import {
   CLEANUP_SELECTED,
 } from "../constants/ActionTypes";
 
-const initState = {
+export const initState = {
   campervanList: [],
   selectedItemData: {},
   loading: true,
   total: 0,
 };
 
-const reducer = (state = initState, action) => {
+export const reducer = (state = initState, action) => {
   switch (action.type) {
     case FFETCH_CAMPERVANS: case GET_RENTAL:
       return { ...state, loading: true };
